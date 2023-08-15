@@ -1,0 +1,290 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{marginnote} 
+\usepackage{wallpaper}
+\usepackage{lastpage}
+\usepackage[left=1.3cm,right=4.6cm,top=1.8cm,bottom=4.0cm,marginparwidth=3.4cm]{geometry}
+ \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{datatool}
+\usepackage{filecontents}
+\DTLsetseparator{,}
+\DTLloaddb[nosheader, keys={thekey,thevalue}]{mydata}{mydata.dat}
+\newcommand{\var}[1]{\DTLfetch{mydata}{thekey}{#1}{thevalue}}
+\usepackage{fancyhdr}
+\setlength{\headheight}{80pt} 
+\pagestyle{fancy}\fancyhf{}
+ \renewcommand{\headrulewidth}{0pt} 
+\setlength{\parindent}{0cm}
+\newcommand{\tab}{\hspace*{2em}}
+ \newcommand\BackgroundStructure{ 
+\setlength{\unitlength}{1mm}
+ \setlength\fboxsep{0mm} 
+\setlength\fboxrule{0.5mm}
+\put(10, 10){\fcolorbox{black}{blue!10}{\framebox(155,247){}}}
+\put(165, 10){\fcolorbox{black}{blue!10}{\framebox(37,247){}}}
+\put(10, 262){\fcolorbox{black}{white!10}{\framebox(192, 25){}}}
+\put(137, 263){\includegraphics[height=23mm,keepaspectratio]{logo}}
+}
+\fancyhead[L]{\begin{tabular}{l r | l r}
+\textbf{Project} & BEAM DESIGN & \textbf{Page} & \thepage/\pageref{LastPage} \\ 
+\textbf{Designer} & Saurabh k. Khandelwal & \textbf{Reviewer} & PROF. M. N. Shariff \\ 
+\textbf{Updated} & 27/11/2012 & \textbf{Reviewed} & 2/12/2012 \\ 
+\end{tabular}}
+\begin{document}
+\AddToShipoutPicture{\BackgroundStructure} 
+\section{Design of Doubly Reinforced Beam} 
+\subsection{Preliminary Design} 
+
+
+Sectional characteristic:
+
+\tab Width\; of\; the\; beam ($b$)\; =\; \var{width_Beam}mm \\[8pt]
+\tab Overall\; depth\; of\; the\; beam ($D$)\; =\; \var{overall_depth}mm \\[8pt]
+\tab Width\; of\; the\; support ($w$)\; =\; \var{width_support}mm \\[8pt]
+\tab Clear\; cover\; =\; \var{cover} mm \\[8pt]
+\tab Diameter\; of\; the\; tension\; bar ($d_t$)\; =\; \var{dia_tension_reinforcement}mm \\[8pt]
+\tab Diameter\; of\; the\; compression\; bar ($d_c$)\; =\; \var{dia_comp_reinforcement}mm \\[8pt]
+\tab Diameter\; of\; the\; stirrup\; bar ($d_s$)\; =\; \var{dia_stirrups}mm \\[8pt]
+\tab Effective\; depth(d)\; =\; D-clear\; cover-\frac{d_t}{2}-d_s \\[8pt]
+
+\begin{equation*}
+d = \var{overall_depth}-\var{cover}-\frac{\var{dia_tension_reinforcement}}{2}-\var{dia_stirrups}
+\end{equation*}
+
+\begin{equation*}
+d = \var{effective_depth}mm
+\end{equation*}
+
+\tab Clear\; span(l)\; =\; \var{clear_span}m\\[8pt]
+\tab Effective\; span({l_e}_f_f)\; =\; min \begin{Bmatrix}l+d = \var{clear_span} + \var{effective_depth}  \\l+w = \var{clear_span} + \var{width_support} \end{Bmatrix} = \var{effective_span} m \\[8pt]
+
+Material characteristic:
+
+
+\tab Grade\; of\; concrete({f_c}_k)\; =\; \var{grade_concrete}\frac{N}{mm^2} \\[8pt]
+\tab Grade\; of\; steel(f_y)\; =\; \var{grade_steel}\frac{N}{mm^2} \\[8pt]
+\tab Grade\; of\; stirrup(f_s)\; =\; \var{grade_stirrups}\frac{N}{mm^2} \\[8pt]
+
+Grading characteristic:
+
+\begin{equation*}
+ Dead\; load(DL) = \var{dead_load}\frac{kN}{m}
+ \end{equation*}
+
+\begin{equation*}
+ Imposed\; load(LL) = \var{imposed_load}\frac{kN}{m}
+ \end{equation*}
+
+\begin{equation*}
+ Total\; Factored\; load(w_u) = 1.5\times \left ( DL + LL \right ) = \var{factored_load}\frac{kN}{m}
+ \end{equation*}
+
+\subsection{Preliminary Design} 
+
+Shear Force($V_u$):
+
+\begin{equation*}
+V_u = \frac{w_u{l_e}_f_f}{2}
+\end{equation*}
+
+\begin{equation*}
+V_u = \frac{\var{factored_load}\times \var{effective_span}}{2}
+\end{equation*}
+
+\begin{equation*}
+V_u = \var{shear_force} kN
+\end{equation*}
+
+Ultimate bending moment:
+\begin{equation*}
+M_u = \frac{w_u{l_e}_f_f^2}{8}
+\end{equation*}
+
+\begin{equation*}
+M_u = \frac{\var{factored_load}\times \var{effective_span}^2}{8}
+\end{equation*}
+
+\begin{equation*}
+M_u = \var{bending_moment} kNm
+\end{equation*}
+
+Limiting bending moment:
+
+\tab From\; similiar\; triangle\\[8pt]
+\begin{equation*}
+\frac{{x_u}_l_i_m}{0.0035} = \frac{d-{x_{u,lim}}}{0.002+\frac{0.87f_y}{E_s}}
+\end{equation*}
+\begin{equation*} 
+{x_u}_l_i_m = \var{Xu_lim}mm 
+\end{equation*}
+\begin{equation*} 
+ {M_u}_l_i_m = 0.36f_c_kb{x_u}_l_i_m\left ( d -0.42x_u\right)
+ \end{equation*}\begin{equation*}
+{M_u}_l_i_m = 0.36\times \var{grade_concrete}\times \var{width_Beam}\times \var{Xu_lim}\times \left (\var{effective_depth} -0.42\times \var{Xu_lim}\right )
+\end{equation*}
+
+\begin{equation*}
+ {M_u}_l_i_m = \var{lim_bending_moment}kNm < M_u
+ \end{equation*}
+So, Section should be designed as Doubly reinforced beam.
+\par\vspace{\baselineskip}
+
+\subsubsection{Tension Reinforcement}
+
+Total tensile reinforcement:
+\begin{equation*}
+ A_s_t={A_s_t}_l_i_m+\Delta A_s_t 
+ \end{equation*}
+\tab Where\; {A_s_t}_l_i_m\; is\; due\; to\; tensile\; steel\; corresponding\; to\; {M_u}_l_i_m \\[8pt]
+\tab and\; \Delta A_s_t\; is\; corresponding\; to\; \Delta M_u\\[8pt]
+
+Limiting Tensile Reinforcement:
+\begin{equation*}
+{A_s_t}_l_i_m = 0.5\frac{f_c_k}{f_y}bd\left [ 1-\sqrt{1-\frac{4.6{M_u}_l_i_m}{f_c_kbd^2}} \right ]
+\end{equation*}
+\begin{equation*}
+{A_s_t}_l_i_m = 0.5\times \frac{\var{grade_concrete}}{\var{grade_steel}}\times \var{width_Beam}\times \var{effective_depth}\times \left [ 1-\sqrt{1-\frac{4.6\times \var{lim_bending_moment}}{\var{grade_concrete}\times \var{width_Beam}\times \var{effective_depth}^2}} \right ]
+\end{equation*}
+\begin{equation*}
+ {A_{st,lim}}= \var{Ast_1}mm^2
+ \end{equation*}
+\Delta M_u:
+
+\begin{equation*}
+ \Delta M_u = 0.87f_y\Delta A_s_t\left ( d-d{}' \right )
+ \end{equation*}\begin{equation*}
+\var{bending_moment}-\var{lim_bending_moment} = 0.87\times \var{grade_steel}\times \Delta A_s_t\times \left (\var{effective_depth}-\var{effective_cover} \right )
+\end{equation*}
+\begin{equation*}
+ \Delta A_s_t = \var{Ast_2}mm^2
+ \end{equation*}
+\tab Where d' is effective cover\\[8pt]\begin{equation*}
+ A_s_t=\var{Ast_1}+\var{Ast_2}
+ \end{equation*}
+\begin{equation*}
+ A_s_t=\var{Ast}mm^2
+ \end{equation*}
+Number of Bars:
+
+\begin{equation*}
+ n = \frac{A_s_t}{\frac{\pi}{4}d_t^2}
+ \end{equation*}
+\begin{equation*}
+ n = \frac{\var{Ast}}{\frac{\pi}{4}\times \var{dia_tension_reinforcement}^2}
+ \end{equation*}
+\begin{equation*}
+ n = \var{n_TENSION_required}
+ \end{equation*}
+\tab So\; provide\; \var{n_TENSION}\; bars\; of\; \var{dia_tension_reinforcement}\; mm\; dia\; as\; tensile\; reinforcement.\; \\[8pt]Percentage reinforcement:
+ 
+\begin{equation*}
+ pt = \frac{n\times \frac{\pi}{4}d_t^2}{bd} \end{equation*}
+\begin{equation*}
+ pt = \frac{\var{n_TENSION}\times \frac{\pi}{4}\times \var{dia_tension_reinforcement}^2}{\var{width_Beam}\times \var{effective_depth}}
+ \end{equation*}
+\begin{equation*}
+ pt = \var{pt_provided}\%
+ \end{equation*}
+Check:
+
+\begin{equation*}
+ {A_s}_t_m_a_x = 0.04bD
+ \end{equation*}
+\begin{equation*}
+ {A_s}_t_m_a_x = 0.04\times \var{width_Beam}\times \var{overall_depth}
+ \end{equation*}
+\begin{equation*}
+ {A_s}_t_m_a_x = \var{MAX_RF} > A_s_t 
+ \end{equation*}
+ \marginnote{OK}
+\begin{equation*}
+ {A_s}_t_m_i_n = \frac{0.85bd}{f_y}
+ \end{equation*}
+\begin{equation*}
+ {A_s}_t_m_i_n = \frac{0.85\times \var{width_Beam}\times \var{effective_depth}}{\var{grade_steel}}
+ \end{equation*}
+\begin{equation*}
+ {A_s}_t_m_i_n = \var{MIN_RF} < A_s_t
+ \end{equation*}
+ \marginnote{OK}
+\par\vspace{\baselineskip}
+\subsubsection{Compression Reinforcement}
+
+\begin{equation*}
+ \epsilon _s_c = \left(\frac{{x_u}_l_i_m-d{}'}{{x_u}_l_i_m} \right )\times 0.0035
+ \end{equation*}
+\begin{equation*}
+ \epsilon _s_c = \left (\frac{\var{Xu_lim}-\var{effective_cover}}{Xu_lim} \right )\times 0.0035
+ \end{equation*}
+\begin{equation*}
+ \epsilon _s_c = \var{esc}
+ \end{equation*}
+\begin{equation*}
+ f_s_c = \var{fsc}\frac{N}{mm^2}
+ \marginnote{(SP-16 Table A)}
+ \end{equation*}
+\begin{equation*}
+ \left ( f_s_c - 0.45f_c_k \right )A_s_c = 0.87f_y\Delta A_s_t
+ \end{equation*}
+\begin{equation*}
+ \left (\var{fsc} - 0.45\var{grade_concrete} \right )\times A_s_c = 0.87\times \var{grade_steel}\times \var{Ast_2}
+ \end{equation*}
+\begin{equation*}
+ A_s_c = \var{Asc}mm^2
+ \end{equation*}
+Number of Bars:
+
+\begin{equation*}
+ n = \frac{A_s_c}{\frac{\pi}{4}d_c^2}
+ \end{equation*}
+\begin{equation*}
+ n = \frac{\var{Asc}}{\frac{\pi}{4}\times \var{dia_comp_reinforcement}^2}
+ \end{equation*}
+\begin{equation*}
+ n = \var{n_COMPRESSION_required}
+ \end{equation*}
+\tab So\; provide\; \var{n_COMPRESSION}\; bars\; of\; \var{dia_comp_reinforcement}\; mm\; dia\; as\; compressive\; reinforcement.\; \\[8pt]
+Percentage reinforcement:
+
+\begin{equation*}
+ pc = \frac{n\times \frac{\pi}{4}d_c^2}{bd}
+ \end{equation*}
+\begin{equation*}
+ pc = \frac{\var{n_COMPRESSION}\times \frac{\pi}{4}\times \var{dia_comp_reinforcement}^2}{\var{width_Beam}\times \var{effective_depth}}
+ \end{equation*}
+\begin{equation*}
+ pc = \var{pc_provided}\%
+ \end{equation*}
+Check:
+
+\begin{equation*}
+ {A_s}_c_m_a_x = 0.04bD
+ \end{equation*}
+\begin{equation*}
+ {A_s}_c_m_a_x = 0.04\times \var{width_Beam}\times \var{overall_depth}
+ \end{equation*}
+\begin{equation*}
+ {A_s}_c_m_a_x = \var{MAX_RF} > A_s_c
+ \end{equation*}
+ \marginnote{OK}
+\subsubsection{Shear Reinforcement}
+
+\tab Design\; shear\; force(V_d)\; =\; \var{Design_Shear_Force}kN \\[8pt]
+\tab Nominal\; shear\; stress(\tau _v)\; =\; \frac{V_d}{bd} \\[8pt]
+
+\begin{equation*}
+ \tau _v = \frac{\var{Design_Shear_Force}\times 1000}{\var{width_Beam}\times \var{effective_depth}}
+ \end{equation*}
+
+\begin{equation*}
+ \tau _v = \var{Nominal_Shear_Stress}\frac{N}{mm^2}
+ \end{equation*}
+
+\tab Max\; shear\; capacity({\tau _m}_a_x)\; =\; \var{Max_Shear_Capacity}\frac{N}{mm^2}
+ \marginnote{OK} \\[8pt]
+
+\tab Permissible\; shear\; capacity(\tau _c)\; =\; \var{Shear_Stress}\frac{N}{mm^2} \marginnote{IS 456 : Table 19} \\[8pt]
+\tab As\; \tau _v <\tau _c \\[8pt]
+\tab So\; Nominal\; shear\; stirrups\; are\; provided\; \\[8pt]
+\end{document}
